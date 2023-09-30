@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -32,7 +34,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   double xAddition = 0;
   double yAddition = 0;
-  double sensibility = 0.3;
+  double sensibility = 0.6;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
           });
         },
         child: Container(
-          color: Colors.black,
+          color: Colors.white,
           height: double.infinity,
           child: CustomPaint(
             painter: MyPainter(xAddition: xAddition, yAddition: yAddition),
@@ -68,26 +70,33 @@ class MyPainter extends CustomPainter {
   final double xAddition;
   final double yAddition;
   const MyPainter({required this.xAddition, required this.yAddition});
-  @override
-  void paint(Canvas canvas, Size size) {
+  void drawAxes(Canvas canvas, double layoutSize) {
     final paint = Paint()
-      ..color = Colors.deepPurple
+      ..color = Colors.black
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2.0;
-    double layoutSize = double.maxFinite;
-    canvas.translate(size.width / 2 + xAddition, size.height / 2 + yAddition);
     canvas.drawLine(Offset(0, 0), Offset(layoutSize, 0), paint);
     canvas.drawLine(Offset(0, 0), Offset(-layoutSize, 0), paint);
     canvas.drawLine(Offset(0, 0), Offset(0, layoutSize), paint);
     canvas.drawLine(Offset(0, 0), Offset(0, -layoutSize), paint);
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    double layoutSize = double.maxFinite;
+    canvas.translate(size.width / 2 + xAddition, size.height / 2 + yAddition);
+
+    print("${size.width / 2 + xAddition} :xAddition");
+    print("${size.width / 2 + yAddition} :yAddition");
+
+    drawAxes(canvas, layoutSize);
 
     void addNumbers() {
       for (int i = 0; i < 200; i += 20) {
-        print(i);
         final TextPainter textPainter = TextPainter(
             text: TextSpan(
               text: (i / 20).toInt().toString(),
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.black),
             ),
             textAlign: TextAlign.justify,
             textDirection: TextDirection.ltr)
@@ -100,7 +109,20 @@ class MyPainter extends CustomPainter {
       }
     }
 
-    addNumbers();
+    void axesLength() {
+      double xPositiveLength = size.width / 2 - xAddition;
+      double xNegativeLength = size.width / 2 + xAddition;
+      double yPositiveLength = size.height / 2 + yAddition;
+      double yNegativeLength = size.height / 2 - yAddition;
+
+      print("xPositiveLength: $xPositiveLength");
+      print("xNegativeLength: $xNegativeLength");
+      print("yPositiveLength: $yPositiveLength");
+      print("yNegativeLength: $yNegativeLength");
+    }
+
+    axesLength();
+
   }
 
   @override
