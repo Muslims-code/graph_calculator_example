@@ -70,22 +70,21 @@ class MyPainter extends CustomPainter {
   final double xAddition;
   final double yAddition;
   const MyPainter({required this.xAddition, required this.yAddition});
-  void drawAxes(Canvas canvas, double layoutSize) {
+  void drawAxes(Canvas canvas,Size size) {
     final paint = Paint()
       ..color = Colors.black
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2.0;
-    canvas.drawLine(Offset(0, 0), Offset(layoutSize, 0), paint);
-    canvas.drawLine(Offset(0, 0), Offset(-layoutSize, 0), paint);
-    canvas.drawLine(Offset(0, 0), Offset(0, layoutSize), paint);
-    canvas.drawLine(Offset(0, 0), Offset(0, -layoutSize), paint);
+    canvas.drawLine(Offset(0, 0), Offset(size.width+xAddition.abs(), 0), paint);
+    canvas.drawLine(Offset(0, 0), Offset(-(size.width+xAddition.abs()), 0), paint);
+    canvas.drawLine(Offset(0, 0), Offset(0, size.height+yAddition.abs()), paint);
+    canvas.drawLine(Offset(0, 0), Offset(0, -(size.height+yAddition.abs())), paint);
   }
 
   @override
   void paint(Canvas canvas, Size size) {
-    double layoutSize = 1000+ xAddition.abs()+ yAddition.abs();
     canvas.translate(size.width / 2 + xAddition, size.height / 2 + yAddition);
-    drawAxes(canvas, layoutSize);
+    drawAxes(canvas,size);
 
 
     void axesLength() {
