@@ -30,15 +30,31 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var startPoint = Offset(0, 0);
+  var painter = MyPainter(0, 0);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        child: CustomPaint(
-          painter: MyPainter(),
-          child: Container(),
+      body: GestureDetector(
+        onHorizontalDragStart: (d) {
+          setState(() {
+            startPoint = d.localPosition;
+          });
+        },
+        onHorizontalDragUpdate: (d) {
+          setState(() {
+            painter.xAddition = startPoint.dx - d.localPosition.dx;
+            painter.yAddition = startPoint.dy - d.localPosition.dy;
+          });
+        },
+        child: Container(
+          width: double.infinity,
+          height: double.infinity,
+          child: CustomPaint(
+            painter: MyPainter(painter.xAddition, painter.yAddition),
+            child: Container(),
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -48,36 +64,25 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class MyPainter extends CustomPainter {
+  double xAddition, yAddition;
+  MyPainter(this.xAddition, this.yAddition);
   @override
   void paint(Canvas canvas, Size size) {
-    // final paint = Paint()
-    //   ..color = Colors.deepPurple
-    //   ..style = PaintingStyle.stroke;
-    // canvas.translate(size.width / 2, size.height / 2);
-    // final path = Path()
-    //   ..lineTo(double.maxFinite, 0)
-    //   ..lineTo(-double.maxFinite, 0)
-    //   ..moveTo(0, 0)
-    //   ..lineTo(0, double.maxFinite)
-    //   ..lineTo(0, double.maxFinite.toDouble() * -1);
-    // canvas.drawPath(path, paint);
-
-    var xAddition = 100;
-    var yAddition = 100;
-
+    print("xAddition: $xAddition, yAddition: $yAddition");
     final paint = Paint()
       ..color = Colors.deepPurple
       ..style = PaintingStyle.stroke;
-    canvas.drawLine(
-        Offset((-size.width) - xAddition, (size.height / 2) + yAddition),
-        Offset((size.width) + xAddition, (size.height / 2) + yAddition),
-        paint);
+    double width = size.width;
+    double height = size.height;
+    xAddition = -xAddition.abs();
+    yAddition = -yAddition.abs();
+    canvas.drawLine(Offset((-width) - xAddition, (height / 2) + yAddition),
+        Offset((width) + xAddition, (height / 2) + yAddition), paint);
 
-    // canvas.translate((size.height / 2), (size.height / 2) + yAddition);
-    canvas.drawLine(Offset((size.width / 2) - xAddition, 0.0 - yAddition),
-        Offset((size.width / 2) - xAddition, (size.height) + yAddition), paint);
+    canvas.drawLine(Offset((width / 2) - xAddition, 0.0 - yAddition),
+        Offset((width / 2) - xAddition, (height) + yAddition), paint);
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }
