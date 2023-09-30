@@ -87,7 +87,7 @@ class MyPainter extends CustomPainter {
         Offset(0, 0), Offset(0, -(size.height + yAddition.abs())), paint);
   }
 
-  void writeNumber(int i, Offset offset, Canvas canvas) {
+  void writeNumber(int i, Offset offset, Canvas canvas, bool isHorizontal) {
     final TextPainter textPainter = TextPainter(
         text: TextSpan(
           text: (i).toInt().toString(),
@@ -96,14 +96,26 @@ class MyPainter extends CustomPainter {
         textAlign: TextAlign.justify,
         textDirection: TextDirection.ltr)
       ..layout(minWidth: 10, maxWidth: 100);
-    textPainter.paint(canvas, offset);
-    canvas.drawLine(
-        Offset(offset.dx + 4, offset.dy + 2),
-        Offset(offset.dx + 4, -4),
-        Paint()
-          ..color = Colors.black
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1);
+
+    textPainter.paint(
+        canvas, isHorizontal ? offset : Offset(offset.dx + 10, offset.dy));
+    if (isHorizontal) {
+      canvas.drawLine(
+          Offset(offset.dx + 4, offset.dy + 2),
+          Offset(offset.dx + 4, -4),
+          Paint()
+            ..color = Colors.black
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1);
+    } else {
+      canvas.drawLine(
+          Offset(offset.dx + 2, offset.dy + 10),
+          Offset(-4, offset.dy + 10),
+          Paint()
+            ..color = Colors.black
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1);
+    }
   }
 
   @override
@@ -119,24 +131,34 @@ class MyPainter extends CustomPainter {
     }
 
     double xPositiveLength = size.width / 2 - xAddition;
-     double yPositiveLength = size.height / 2 + yAddition;
+    double yPositiveLength = (size.height / 2 - yAddition);
 
-    var ss = 0;
-    var ayism = (xPositiveLength / 50).floor();
+    var counter = 0;
+    var pointsCountFromBeginning = (xPositiveLength / 50).floor();
+    // drawing x numbers
     for (var i = 0; i <= size.width; i += 50) {
-      print('we darw point');
-      writeNumber(
-          ayism - ss, Offset((50 * (ayism - ss)).toDouble(), 0), canvas);
-      ss++;
+      if (pointsCountFromBeginning - counter != 0) {
+        writeNumber(
+            pointsCountFromBeginning - counter,
+            Offset((50 * (pointsCountFromBeginning - counter)).toDouble(), 0),
+            canvas,
+            true);
+      }
+      counter++;
     }
-    //  ss = 0;
-    //  ayism = (yPositiveLength / 50).floor();
-    // for (var i = 0; i <= size.height; i += 50) {
-    //   print('we darw point');
-    //   writeNumber(
-    //       ayism - ss, Offset((50 * (ayism - ss)).toDouble(), 0), canvas);
-    //   ss++;
-    // }
+    counter = 0;
+    pointsCountFromBeginning = (yPositiveLength / 50).floor();
+    // drawing y numbers
+    for (var i = 0; i <= size.height; i += 50) {
+      if (pointsCountFromBeginning - counter != 0) {
+        writeNumber(
+            -(pointsCountFromBeginning - counter),
+            Offset(0, (50 * (pointsCountFromBeginning - counter)).toDouble()),
+            canvas,
+            false);
+      }
+      counter++;
+    }
   }
 
   @override
