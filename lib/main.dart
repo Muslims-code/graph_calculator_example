@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 
@@ -47,7 +46,8 @@ class _MyHomePageState extends State<MyHomePage> {
         },
         child: Container(
           color: Colors.white,
-          height: double.infinity,
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
           child: CustomPaint(
             painter: MyPainter(xAddition: xAddition, yAddition: yAddition),
             child: Container(),
@@ -83,31 +83,10 @@ class MyPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    double layoutSize = double.maxFinite;
+    double layoutSize = 1000+ xAddition.abs()+ yAddition.abs();
     canvas.translate(size.width / 2 + xAddition, size.height / 2 + yAddition);
-
-    print("${size.width / 2 + xAddition} :xAddition");
-    print("${size.width / 2 + yAddition} :yAddition");
-
     drawAxes(canvas, layoutSize);
 
-    void addNumbers() {
-      for (int i = 0; i < 200; i += 20) {
-        final TextPainter textPainter = TextPainter(
-            text: TextSpan(
-              text: (i / 20).toInt().toString(),
-              style: TextStyle(color: Colors.black),
-            ),
-            textAlign: TextAlign.justify,
-            textDirection: TextDirection.ltr)
-          ..layout(maxWidth: 5);
-        if (i == 0) {
-          textPainter.paint(canvas, Offset(i + -10, 2));
-        } else {
-          textPainter.paint(canvas, Offset(i - 5, 2));
-        }
-      }
-    }
 
     void axesLength() {
       double xPositiveLength = size.width / 2 - xAddition;
