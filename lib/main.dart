@@ -116,31 +116,27 @@ class MyPainter extends CustomPainter {
       double xNegativeLength = size.width / 2 + xAddition;
       double yPositiveLength = size.height / 2 + yAddition;
       double yNegativeLength = size.height / 2 - yAddition;
-
-      print("xPositiveLength: $xPositiveLength");
-      print("xNegativeLength: $xNegativeLength");
-      print("yPositiveLength: $yPositiveLength");
-      print("yNegativeLength: $yNegativeLength");
     }
 
     double xPositiveLength = size.width / 2 - xAddition;
-    print("xPositiveLength: $xPositiveLength");
-    if (xPositiveLength / 2 > 1) {
-      for (var i = 0; i < size.width; i += 50) {
-        var ayism = (size.width / 50).floor();
-        writeNumber(
-            ayism - i, Offset((50 * (ayism - i)).toDouble(), 0), canvas);
-      }
-      var fahl = xPositiveLength -
-          ((xPositiveLength / size.width).floor() * size.width);
-      print("fahl: $fahl");
-      // axesLength();
-      // for (var i = 1; i < xPositiveLength / 50; i++) {
-      //   writeNumber(i, Offset((50 * i).toDouble(), 0), canvas);
-      // }
-      // writeNumber(2, Offset(100, 0), canvas);
-      // writeNumber(3, Offset(150, 0), canvas);
+     double yPositiveLength = size.height / 2 + yAddition;
+
+    var ss = 0;
+    var ayism = (xPositiveLength / 50).floor();
+    for (var i = 0; i <= size.width; i += 50) {
+      print('we darw point');
+      writeNumber(
+          ayism - ss, Offset((50 * (ayism - ss)).toDouble(), 0), canvas);
+      ss++;
     }
+    //  ss = 0;
+    //  ayism = (yPositiveLength / 50).floor();
+    // for (var i = 0; i <= size.height; i += 50) {
+    //   print('we darw point');
+    //   writeNumber(
+    //       ayism - ss, Offset((50 * (ayism - ss)).toDouble(), 0), canvas);
+    //   ss++;
+    // }
   }
 
   @override
