@@ -83,49 +83,40 @@ class MyPainter extends CustomPainter {
         Offset(0, size.height / 2 + yAddition.abs()), paint);
   }
 
-  void writeNumber(int i, Offset offset, Canvas canvas, bool isHorizontal,double xAddition,double yAddition,Size size) {
+  void writeNumber(int i, Offset offset, Canvas canvas, bool isHorizontal,
+      double xAddition, double yAddition, Size size) {
     final TextPainter textPainter = TextPainter(
         text: TextSpan(
           text: (i).toInt().toString(),
-          style: const TextStyle(color: Colors.black),
+          style: const TextStyle(
+              color: Colors.black, backgroundColor: Colors.white),
         ),
         textAlign: TextAlign.justify,
         textDirection: TextDirection.ltr)
       ..layout(minWidth: 10, maxWidth: 100);
 
-    textPainter.paint(
-        canvas, isHorizontal ? offset : Offset(offset.dx + 10, offset.dy));
     if (isHorizontal) {
       canvas.drawLine(
-          Offset(offset.dx + 4, offset.dy + 2),
-          Offset(offset.dx + 4, size.height / 2 + yAddition.abs()),
-          Paint()
-            ..color = Colors.grey
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 1);
-      canvas.drawLine(
-          Offset(offset.dx + 4,- (offset.dy + 2)),
           Offset(offset.dx + 4, -(size.height / 2 + yAddition.abs())),
+          Offset(offset.dx + 4, size.height / 2 + yAddition.abs()),
           Paint()
             ..color = Colors.grey
             ..style = PaintingStyle.stroke
             ..strokeWidth = 1);
     } else {
       canvas.drawLine(
-          Offset(offset.dx + 2, offset.dy + 10),
+          Offset(-(size.width / 2 + xAddition.abs()), offset.dy + 10),
           Offset((size.width / 2 + xAddition.abs()), offset.dy + 10),
           Paint()
             ..color = Colors.grey
             ..style = PaintingStyle.stroke
             ..strokeWidth = 1);
-       canvas.drawLine(
-          Offset(-(offset.dx + 2), offset.dy + 10),
-          Offset(-(size.width / 2 + xAddition.abs()), offset.dy + 10),
-          Paint()
-            ..color = Colors.grey
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 1);
     }
+    textPainter.paint(
+        canvas,
+        isHorizontal
+            ? Offset(offset.dx, offset.dy + 2)
+            : Offset(offset.dx + 10, offset.dy));
   }
 
   @override
@@ -137,33 +128,38 @@ class MyPainter extends CustomPainter {
     double yPositiveLength = (size.height / 2 - yAddition);
 
     var counter = 0;
-    var pointsCountFromBeginning = (xPositiveLength / 50).floor();
-   
+    var pointsCountFromBeginning = (xPositiveLength / 80).floor();
+
     // drawing x numbers
-    for (var i = 0; i <= size.width; i += 50) {
-      if((pointsCountFromBeginning - counter) != 0){
-  writeNumber(
-          pointsCountFromBeginning - counter,
-          Offset(
-              (50 * (pointsCountFromBeginning - counter)).toDouble()-4 , 0),
-          canvas,
-          true,xAddition,yAddition,size);
-     
+    for (var i = 0; i <= size.width; i += 80) {
+      if ((pointsCountFromBeginning - counter) != 0) {
+        writeNumber(
+            pointsCountFromBeginning - counter,
+            Offset(
+                (80 * (pointsCountFromBeginning - counter)).toDouble() - 4, 0),
+            canvas,
+            true,
+            xAddition,
+            yAddition,
+            size);
       }
-       counter++;
-    
+      counter++;
     }
     counter = 0;
-    pointsCountFromBeginning = (yPositiveLength / 50).floor();
+    pointsCountFromBeginning = (yPositiveLength / 80).floor();
     // drawing y numbers
-    for (var i = 0; i <= size.height; i += 50) {
+    for (var i = 0; i <= size.height; i += 80) {
       if (pointsCountFromBeginning - counter != 0) {
         writeNumber(
             -(pointsCountFromBeginning - counter),
-            Offset(0, (50 * (pointsCountFromBeginning - counter)).toDouble()-9),
+            Offset(
+                0, (80 * (pointsCountFromBeginning - counter)).toDouble() - 9),
             canvas,
-            false,xAddition,yAddition,size);
-     }
+            false,
+            xAddition,
+            yAddition,
+            size);
+      }
 
       counter++;
     }
