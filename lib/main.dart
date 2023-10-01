@@ -83,7 +83,7 @@ class MyPainter extends CustomPainter {
         Offset(0, size.height / 2 + yAddition.abs()), paint);
   }
 
-  void writeNumber(int i, Offset offset, Canvas canvas, bool isHorizontal) {
+  void writeNumber(int i, Offset offset, Canvas canvas, bool isHorizontal,double xAddition,double yAddition,Size size) {
     final TextPainter textPainter = TextPainter(
         text: TextSpan(
           text: (i).toInt().toString(),
@@ -98,17 +98,31 @@ class MyPainter extends CustomPainter {
     if (isHorizontal) {
       canvas.drawLine(
           Offset(offset.dx + 4, offset.dy + 2),
-          Offset(offset.dx + 4, -4),
+          Offset(offset.dx + 4, size.height / 2 + yAddition.abs()),
           Paint()
-            ..color = Colors.black
+            ..color = Colors.grey
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1);
+      canvas.drawLine(
+          Offset(offset.dx + 4,- (offset.dy + 2)),
+          Offset(offset.dx + 4, -(size.height / 2 + yAddition.abs())),
+          Paint()
+            ..color = Colors.grey
             ..style = PaintingStyle.stroke
             ..strokeWidth = 1);
     } else {
       canvas.drawLine(
           Offset(offset.dx + 2, offset.dy + 10),
-          Offset(-4, offset.dy + 10),
+          Offset((size.width / 2 + xAddition.abs()), offset.dy + 10),
           Paint()
-            ..color = Colors.black
+            ..color = Colors.grey
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1);
+       canvas.drawLine(
+          Offset(-(offset.dx + 2), offset.dy + 10),
+          Offset(-(size.width / 2 + xAddition.abs()), offset.dy + 10),
+          Paint()
+            ..color = Colors.grey
             ..style = PaintingStyle.stroke
             ..strokeWidth = 1);
     }
@@ -133,7 +147,7 @@ class MyPainter extends CustomPainter {
           Offset(
               (50 * (pointsCountFromBeginning - counter)).toDouble()-4 , 0),
           canvas,
-          true);
+          true,xAddition,yAddition,size);
      
       }
        counter++;
@@ -148,7 +162,7 @@ class MyPainter extends CustomPainter {
             -(pointsCountFromBeginning - counter),
             Offset(0, (50 * (pointsCountFromBeginning - counter)).toDouble()-9),
             canvas,
-            false);
+            false,xAddition,yAddition,size);
      }
 
       counter++;
