@@ -77,14 +77,10 @@ class MyPainter extends CustomPainter {
       ..color = Colors.black
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2.0;
-    canvas.drawLine(
-        Offset(0, 0), Offset(size.width + xAddition.abs(), 0), paint);
-    canvas.drawLine(
-        Offset(0, 0), Offset(-(size.width + xAddition.abs()), 0), paint);
-    canvas.drawLine(
-        Offset(0, 0), Offset(0, size.height + yAddition.abs()), paint);
-    canvas.drawLine(
-        Offset(0, 0), Offset(0, -(size.height + yAddition.abs())), paint);
+    canvas.drawLine(Offset(-(size.width / 2 + xAddition.abs()), 0),
+        Offset(size.width / 2 + xAddition.abs(), 0), paint);
+    canvas.drawLine(Offset(0, -(size.height / 2 + yAddition.abs())),
+        Offset(0, size.height / 2 + yAddition.abs()), paint);
   }
 
   void writeNumber(int i, Offset offset, Canvas canvas, bool isHorizontal) {
@@ -123,28 +119,25 @@ class MyPainter extends CustomPainter {
     canvas.translate(size.width / 2 + xAddition, size.height / 2 + yAddition);
     drawAxes(canvas, size);
 
-    void axesLength() {
-      double xPositiveLength = size.width / 2 - xAddition;
-      double xNegativeLength = size.width / 2 + xAddition;
-      double yPositiveLength = size.height / 2 + yAddition;
-      double yNegativeLength = size.height / 2 - yAddition;
-    }
-
     double xPositiveLength = size.width / 2 - xAddition;
     double yPositiveLength = (size.height / 2 - yAddition);
 
     var counter = 0;
     var pointsCountFromBeginning = (xPositiveLength / 50).floor();
+   
     // drawing x numbers
     for (var i = 0; i <= size.width; i += 50) {
-      if (pointsCountFromBeginning - counter != 0) {
-        writeNumber(
-            pointsCountFromBeginning - counter,
-            Offset((50 * (pointsCountFromBeginning - counter)).toDouble(), 0),
-            canvas,
-            true);
+      if((pointsCountFromBeginning - counter) != 0){
+  writeNumber(
+          pointsCountFromBeginning - counter,
+          Offset(
+              (50 * (pointsCountFromBeginning - counter)).toDouble()-4 , 0),
+          canvas,
+          true);
+     
       }
-      counter++;
+       counter++;
+    
     }
     counter = 0;
     pointsCountFromBeginning = (yPositiveLength / 50).floor();
@@ -153,10 +146,11 @@ class MyPainter extends CustomPainter {
       if (pointsCountFromBeginning - counter != 0) {
         writeNumber(
             -(pointsCountFromBeginning - counter),
-            Offset(0, (50 * (pointsCountFromBeginning - counter)).toDouble()),
+            Offset(0, (50 * (pointsCountFromBeginning - counter)).toDouble()-9),
             canvas,
             false);
-      }
+     }
+
       counter++;
     }
   }
