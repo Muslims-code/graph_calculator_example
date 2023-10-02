@@ -1,7 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:graph_calculator_example/controllers/graph_controller.dart';
-import 'package:graph_calculator_example/widget/graph_widget.dart';
 import 'models/models.dart';
 
 void main() {
@@ -14,7 +12,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -27,15 +24,18 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class homepage extends StatefulWidget {
-  const homepage({super.key});
+class GraphWidget extends StatefulWidget {
+  final Graph graph;
+  const GraphWidget({super.key, required this.graph});
 
   @override
-  State<homepage> createState() => _homepageState();
+  State<GraphWidget> createState() => _GraphWidgetState();
 }
 
-class _homepageState extends State<homepage> {
-  var graphController = GraphController(graph: Graph(numbersStyle: TextStyle(color: Colors.black)));
+class _GraphWidgetState extends State<GraphWidget> {
+  double _xAddition = 0;
+  double _yAddition = 0;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -55,13 +55,6 @@ class _homepageState extends State<homepage> {
               graph: widget.graph),
         ),
       ),
-      floatingActionButton:FloatingActionButton(onPressed: (){
-        setState(() {
-        graphController.addConstObject(GraphText(text: 'text', offset: const Offset(0, 0)));
-        graphController.backToHome();
-        });
-
-      }) ,
     );
   }
 }

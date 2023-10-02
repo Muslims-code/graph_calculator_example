@@ -7,13 +7,14 @@ class GraphText extends DrawableObject {
   final String text;
   final TextStyle textStyle;
   final Offset offset;
-   late TextPainter _textPainter;
   GraphText({
     required this.text,
     this.textStyle = const TextStyle(color: Colors.white),
     required this.offset,
-  }){
-_textPainter =TextPainter(
+  });
+  @override
+  void draw(Canvas canvas, Size size) {
+    final TextPainter textPainter = TextPainter(
         text: TextSpan(
           text: text,
           style: textStyle,
@@ -21,11 +22,6 @@ _textPainter =TextPainter(
         textAlign: TextAlign.justify,
         textDirection: TextDirection.ltr)
       ..layout(minWidth: 10, maxWidth: 100);
+    textPainter.paint(canvas, offset);
   }
-  @override
-  void draw(Canvas canvas, Size size) {
-    _textPainter.paint(canvas, offset);
-  }
-  
- 
 }
