@@ -17,7 +17,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: GraphWidget(graph: Graph()),
+      home: Scaffold(
+        body: GraphWidget(graph: Graph()),
+      ),
     );
   }
 }
@@ -46,11 +48,11 @@ class _GraphWidgetState extends State<GraphWidget> {
       child: Container(
         color: widget.graph.backgroundColor,
         child: CustomPaint(
+          size: const Size(500, 500),
           painter: MyPainter(
               xAddition: _xAddition,
               yAddition: _yAddition,
               graph: widget.graph),
-          child: Container(),
         ),
       ),
     );
@@ -117,6 +119,9 @@ class MyPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    canvas.clipRect(
+        Rect.fromPoints(Offset(0, 0), Offset(size.width, size.height)));
+
     canvas.translate(size.width / 2 + _xAddition, size.height / 2 + _yAddition);
     drawAxes(canvas, size);
 
@@ -164,6 +169,7 @@ class MyPainter extends CustomPainter {
 
       counter++;
     }
+
   }
 
   @override
