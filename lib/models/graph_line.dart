@@ -15,6 +15,8 @@ class GraphLine extends DrawableObject {
     required this.lineWidth,
   });
   
+
+
   @override
   void draw(Canvas canvas, Size size) {
     final paint = Paint()
@@ -23,4 +25,6 @@ class GraphLine extends DrawableObject {
       ..strokeCap = StrokeCap.square;
     canvas.drawLine(startOffset, endOffset, paint);
   }
+  
+
 }
