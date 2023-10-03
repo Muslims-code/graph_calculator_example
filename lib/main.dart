@@ -48,7 +48,7 @@ class _homepageState extends State<homepage> {
       floatingActionButton:FloatingActionButton(backgroundColor: Colors.blue,onPressed: (){
         
         setState(() {
-        graphController.addConstObject(GraphText(text: 'ابه نيو', offset: Offset(graphController.graph.foucesPoint.x,graphController.graph.foucesPoint.y)));
+        graphController.addConstObject(GraphText(text: 'hello', offset: Offset(graphController.graph.focusPoint.x,graphController.graph.focusPoint.y)));
         });
 
       }) ,

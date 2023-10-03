@@ -3,6 +3,7 @@ import 'package:graph_calculator_example/models/drawable_object.dart';
 import 'package:graph_calculator_example/models/graph_offset.dart';
 
 class Graph {
+  
   final double sensibility;
   final TextStyle numbersStyle;
   final Color backgroundColor;
@@ -12,14 +13,8 @@ class Graph {
   final double axesWidth;
   final List<DrawableObject> constObjects = [];
   final double gridStep;
-  Map<String,GraphOffset> screenlimts ={
-    'TopLeft':GraphOffset(0,0),
-    'TopRight':GraphOffset(0,0),
-    'DownLeft':GraphOffset(0,0),
-    'DownRightt':GraphOffset(0,0),
-  };
   List<DrawableObject> drawableObjects =[];
-   GraphOffset foucesPoint= GraphOffset(0, 0);
+  GraphOffset focusPoint= GraphOffset(0, 0);
   Graph({
     this.gridStep = 100,
     this.sensibility = 0.6,

@@ -10,16 +10,15 @@ class GraphController {
   });
 
   void drawAxes(Canvas canvas,Size size,) {
-    var xAddition =- graph.foucesPoint.x;
-    var yAddition =- graph.foucesPoint.y;
+    var xAddition =- graph.focusPoint.x;
+    var yAddition =- graph.focusPoint.y;
     final paint = Paint()
       ..color = graph.axesColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = graph.axesWidth;
-    canvas.drawLine(Offset(-(size.width / 2 + xAddition.abs()), 0),
-        Offset(size.width / 2 - xAddition, 0), paint);
-    canvas.drawLine(Offset(0, -(size.height / 2 + yAddition.abs())),
-        Offset(0, size.height / 2 + yAddition.abs()), paint);
+    addObject(GraphLine(color: graph.axesColor, startOffset: Offset(-(size.width / 2 + xAddition.abs()),0), endOffset:Offset(size.width / 2 - xAddition, 0),lineWidth: graph.axesWidth) );
+    addObject(GraphLine(lineWidth: graph.axesWidth,color: graph.axesColor, startOffset:Offset(0, -(size.height / 2 + yAddition.abs())), endOffset:Offset(0, size.height / 2 + yAddition.abs())) );
+
   }
 
 
@@ -46,8 +45,8 @@ graph.drawableObjects.add(object);
 
 
   void addNumbers(Canvas canvas,Size size){
-      double xPositiveLength = size.width / 2 + graph.foucesPoint.x;
-    double yPositiveLength = (size.height / 2 + graph.foucesPoint.y);
+      double xPositiveLength = size.width / 2 + graph.focusPoint.x;
+    double yPositiveLength = (size.height / 2 + graph.focusPoint.y);
 
     var counter = 0;
     var pointsCountFromBeginning = (xPositiveLength / graph.gridStep).floor();
@@ -59,7 +58,7 @@ graph.drawableObjects.add(object);
                     4,
                 0);
       if ((pointsCountFromBeginning - counter) != 0) {
-        addObject(GraphLine(color: graph.gridColor, startOffset: Offset(offset.dx + 4, -(size.height / 2 + graph.foucesPoint.y.abs())), endOffset: Offset(offset.dx + 4, size.height / 2 + graph.foucesPoint.y.abs()), lineWidth: graph.gridWidth));
+        addObject(GraphLine(color: graph.gridColor, startOffset: Offset(offset.dx + 4, -(size.height / 2 + graph.focusPoint.y.abs())), endOffset: Offset(offset.dx + 4, size.height / 2 + graph.focusPoint.y.abs()), lineWidth: graph.gridWidth));
         addObject(GraphText(text: (pointsCountFromBeginning - counter).toString(), offset:offset));
       }
       counter++;
@@ -73,7 +72,7 @@ graph.drawableObjects.add(object);
                 (graph.gridStep * (pointsCountFromBeginning - counter)).toDouble() -
                     9);
       if (pointsCountFromBeginning - counter != 0) {
-              addObject(GraphLine(color: graph.gridColor, startOffset:  Offset(-(size.width / 2 + graph.foucesPoint.x.abs()), offset.dy + 10), endOffset: Offset((size.width / 2 + graph.foucesPoint.x.abs()), offset.dy + 10), lineWidth: graph.gridWidth));
+              addObject(GraphLine(color: graph.gridColor, startOffset:  Offset(-(size.width / 2 + graph.focusPoint.x.abs()), offset.dy + 10), endOffset: Offset((size.width / 2 + graph.focusPoint.x.abs()), offset.dy + 10), lineWidth: graph.gridWidth));
        addObject(GraphText(text:(-(pointsCountFromBeginning - counter)).toString(),
            offset: offset,));
       }
@@ -82,7 +81,7 @@ graph.drawableObjects.add(object);
     
   }
   void backToHome(){
-      graph.foucesPoint = GraphOffset(0, 0);
+      graph.focusPoint = GraphOffset(0, 0);
     }
     void addConstObject(DrawableObject object)
     {
