@@ -12,7 +12,7 @@ class Graph {
   final double gridWidth;
   final double axesWidth;
   final List<DrawableObject> constObjects = [];
-  final double gridStep;
+  double gridStep;
   List<DrawableObject> drawableObjects =[];
   GraphOffset focusPoint= GraphOffset(0, 0);
   Graph({

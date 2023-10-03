@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:graph_calculator_example/controllers/graph_controller.dart';
-import 'package:graph_calculator_example/widget/graph_widget.dart';
+import 'package:graph_calculator_example/widgets/graph_widget.dart';
 import 'models/models.dart';
 
 void main() {
@@ -14,7 +14,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -33,25 +32,35 @@ class homepage extends StatefulWidget {
 }
 
 class _homepageState extends State<homepage> {
-  var graphController = GraphController(graph: Graph(numbersStyle: TextStyle(color: Colors.black)));
+  var graphController = GraphController(
+      graph:
+          Graph(gridStep: 100, numbersStyle: TextStyle(color: Colors.black)));
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:  Center(
+      body: Center(
         child: Column(
           children: [
-           const SizedBox(height: 100,),
-            GraphWidget(graphController: graphController,size:  Size(MediaQuery.of(context).size.width,500),),
+            const SizedBox(
+              height: 100,
+            ),
+            GraphWidget(
+              graphController: graphController,
+              size: Size(MediaQuery.of(context).size.width, 500),
+            ),
           ],
         ),
       ),
-      floatingActionButton:FloatingActionButton(backgroundColor: Colors.blue,onPressed: (){
-        
-        setState(() {
-        graphController.addConstObject(GraphText(text: 'hello', offset: Offset(graphController.graph.focusPoint.x,graphController.graph.focusPoint.y)));
-        });
-
-      }) ,
+      floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.blue,
+          onPressed: () {
+            setState(() {
+              graphController.addConstObject(GraphText(
+                  text: 'hello',
+                  offset: Offset(graphController.graph.focusPoint.x,
+                      graphController.graph.focusPoint.y)));
+            });
+          }),
     );
   }
 }
