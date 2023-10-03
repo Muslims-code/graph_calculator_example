@@ -10,8 +10,8 @@ class GraphController {
   });
 
   void drawAxes(Canvas canvas,Size size,) {
-    var xAddition = graph.foucesPoint.x;
-    var yAddition = graph.foucesPoint.y;
+    var xAddition =- graph.foucesPoint.x;
+    var yAddition =- graph.foucesPoint.y;
     final paint = Paint()
       ..color = graph.axesColor
       ..style = PaintingStyle.stroke
@@ -46,8 +46,8 @@ graph.drawableObjects.add(object);
 
 
   void addNumbers(Canvas canvas,Size size){
-      double xPositiveLength = size.width / 2 - graph.foucesPoint.x;
-    double yPositiveLength = (size.height / 2 - graph.foucesPoint.y);
+      double xPositiveLength = size.width / 2 + graph.foucesPoint.x;
+    double yPositiveLength = (size.height / 2 + graph.foucesPoint.y);
 
     var counter = 0;
     var pointsCountFromBeginning = (xPositiveLength / graph.gridStep).floor();

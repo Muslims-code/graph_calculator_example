@@ -37,7 +37,6 @@ class _homepageState extends State<homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.red,
       body:  Center(
         child: Column(
           children: [
@@ -46,10 +45,10 @@ class _homepageState extends State<homepage> {
           ],
         ),
       ),
-      floatingActionButton:FloatingActionButton(onPressed: (){
+      floatingActionButton:FloatingActionButton(backgroundColor: Colors.blue,onPressed: (){
+        
         setState(() {
-        graphController.addConstObject(GraphText(text: 'text', offset: const Offset(0, 0)));
-        graphController.backToHome();
+        graphController.addConstObject(GraphText(text: 'ابه نيو', offset: Offset(graphController.graph.foucesPoint.x,graphController.graph.foucesPoint.y)));
         });
 
       }) ,

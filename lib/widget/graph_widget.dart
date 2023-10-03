@@ -25,8 +25,8 @@ class _GraphWidgetState extends State<GraphWidget> {
       child: GestureDetector(
         onPanUpdate: (details) {
           setState(() {
-            widget._graphController.graph.foucesPoint.y += details.delta.dy * widget._graphController.graph.sensibility;
-            widget._graphController.graph.foucesPoint.x += details.delta.dx * widget._graphController.graph.sensibility;
+            widget._graphController.graph.foucesPoint.y -= details.delta.dy * widget._graphController.graph.sensibility;
+            widget._graphController.graph.foucesPoint.x -= details.delta.dx * widget._graphController.graph.sensibility;
           });
         },
         child: CustomPaint(
@@ -54,7 +54,7 @@ class GraphPainter extends CustomPainter {
     canvas.clipRect(Rect.fromPoints(Offset(0,0), Offset(size.width,size.height)));
         var xAddition=foucesPoint.x;
     var yAddition=foucesPoint.y;
-    canvas.translate(size.width / 2 + xAddition, size.height / 2 + yAddition);
+    canvas.translate(size.width / 2 - xAddition, size.height / 2 - yAddition);
     controller.drawAxes(canvas, size);
     controller.addNumbers(canvas, size);
    
