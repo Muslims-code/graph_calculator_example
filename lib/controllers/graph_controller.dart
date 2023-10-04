@@ -38,7 +38,7 @@ class GraphController {
     // step = 100
     for (double i = (graph.focusPoint.x - (size.width / 2)) / graph.gridStep;
         i < (graph.focusPoint.x + (size.width / 2)) / graph.gridStep;
-        i += 0.01) {
+        i += 0.1) {
       if (function(i).isNaN) continue;
       var y = (-function(i));
       if ((y < (graph.focusPoint.y + (size.height / 2)) / graph.gridStep) &&
@@ -48,8 +48,21 @@ class GraphController {
           ..color = Colors.red
           ..strokeWidth = 2
           ..strokeCap = StrokeCap.round;
-        canvas.drawPoints(PointMode.polygon, points, paint);
+        drawFunctionPoints(paint, points, canvas);
       }
+    }
+  }
+
+  void drawFunctionPoints(Paint paint, List<Offset> points, Canvas canvas) {
+    for (var i = 0; i < points.length - 1; i++) {
+      if ((points[i + 1].dy - points[i].dy).abs() > 100) {
+        continue;
+      }
+      if ((points[i + 1].dx- points[i].dx).abs() > 100) {
+        continue;
+      }
+
+      canvas.drawLine(points[i], points[i + 1], paint);
     }
   }
 
