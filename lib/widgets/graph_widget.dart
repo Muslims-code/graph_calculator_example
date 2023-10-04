@@ -66,21 +66,11 @@ class GraphPainter extends CustomPainter {
     controller.drawAxes(canvas, size);
     controller.addNumbers(canvas, size);
     controller.drawObjects(canvas, size);
-    final List<Offset> points = [];
-    // step = 100
     double mathFunction(double x) {
-      return sqrt(x);
+      return (1) / (x);
     }
-    
-    for (double i = -2; i < 10; i += 0.01) {
-      if (mathFunction(i).isNaN) continue;
-      points.add(Offset(i * graph.gridStep, -mathFunction(i) * graph.gridStep));
-    }
-    final paint = Paint()
-      ..color = Colors.red
-      ..strokeWidth = 2
-      ..strokeCap = StrokeCap.round;
-    canvas.drawPoints(PointMode.polygon, points, paint);
+
+    controller.drawFunction(canvas, size, mathFunction);
   }
 
   @override
