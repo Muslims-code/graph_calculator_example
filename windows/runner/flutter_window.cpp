@@ -31,6 +31,7 @@ bool FlutterWindow::OnCreate() {
     this->Show();
   });
 
+
   return true;
 }
 

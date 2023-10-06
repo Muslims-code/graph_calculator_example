@@ -1,4 +1,11 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:graph_calculator_example/controllers/graph_controller.dart';
+import 'package:graph_calculator_example/models/graph_function.dart';
+import 'package:graph_calculator_example/widgets/graph_widget.dart';
+import 'models/models.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,77 +19,63 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: homepage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+class homepage extends StatefulWidget {
+  const homepage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<homepage> createState() => _homepageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  var startPoint = Offset(0, 0);
-  var painter = MyPainter(0, 0);
-
+class _homepageState extends State<homepage> {
+  var graphController = GraphController(
+      graph:
+          Graph(gridStep: 100, numbersStyle: TextStyle(color: Colors.black)));
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GestureDetector(
-        onHorizontalDragStart: (d) {
-          setState(() {
-            startPoint = d.localPosition;
-          });
-        },
-        onHorizontalDragUpdate: (d) {
-          setState(() {
-            painter.xAddition = startPoint.dx - d.localPosition.dx;
-            painter.yAddition = startPoint.dy - d.localPosition.dy;
-          });
-        },
-        child: Container(
-          width: double.infinity,
-          height: double.infinity,
-          child: CustomPaint(
-            painter: MyPainter(painter.xAddition, painter.yAddition),
-            child: Container(),
-          ),
+      body: Center(
+        child: GraphWidget(
+          graphController: graphController,
+          size: MediaQuery.of(context).size,
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.deepPurple, onPressed: () {}),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+              backgroundColor: Colors.white,
+              child: Icon(Icons.line_axis_rounded),
+              onPressed: () {
+                setState(() {
+                  graphController.addFunction(GraphFunction(
+                      function: (x) {
+                        return 1 / x + 1 / (x - 1);
+                      },
+                      color: Colors.red));
+                });
+              }),
+          SizedBox(
+            height: 10,
+          ),
+          FloatingActionButton(
+              backgroundColor: Colors.white,
+              child: Icon(Icons.center_focus_strong),
+              onPressed: () {
+                setState(() {
+                  graphController.backToHome();
+                });
+              })
+        ],
+      ),
     );
   }
-}
-
-class MyPainter extends CustomPainter {
-  double xAddition, yAddition;
-  MyPainter(this.xAddition, this.yAddition);
-  @override
-  void paint(Canvas canvas, Size size) {
-    print("xAddition: $xAddition, yAddition: $yAddition");
-    final paint = Paint()
-      ..color = Colors.deepPurple
-      ..style = PaintingStyle.stroke;
-    double width = size.width;
-    double height = size.height;
-    xAddition = -xAddition.abs();
-    yAddition = -yAddition.abs();
-    canvas.drawLine(Offset((-width) - xAddition, (height / 2) + yAddition),
-        Offset((width) + xAddition, (height / 2) + yAddition), paint);
-
-    canvas.drawLine(Offset((width / 2) - xAddition, 0.0 - yAddition),
-        Offset((width / 2) - xAddition, (height) + yAddition), paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }
