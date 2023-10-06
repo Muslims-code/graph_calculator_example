@@ -2,6 +2,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:graph_calculator_example/models/graph_function.dart';
 import 'package:graph_calculator_example/models/graph_offset.dart';
 
 import '../controllers/graph_controller.dart';
@@ -65,13 +66,20 @@ class GraphPainter extends CustomPainter {
     canvas.scale(1);
     controller.drawAxes(canvas, size);
     controller.addNumbers(canvas, size);
+    controller.addFunction(GraphFunction(function:(x){
+      return 1/x;
+    }, color: Colors.red));
+controller.addFunction(GraphFunction(function:(x){
+      return sin(x);
+    }, color: Colors.blue));
+   
     controller.drawObjects(canvas, size);
-    double mathFunction(double x) {
-      return (1) / (x);
-    }
+    controller.drawFunctions(canvas, size);
+    controller.graph.functions = [];
+   
 
-    controller.drawFunction(canvas, size, mathFunction);
   }
+   
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graph_calculator_example/models/drawable_object.dart';
+import 'package:graph_calculator_example/models/graph_function.dart';
 import 'package:graph_calculator_example/models/graph_offset.dart';
 
 class Graph {
@@ -12,6 +13,7 @@ class Graph {
   final double gridWidth;
   final double axesWidth;
   final List<DrawableObject> constObjects = [];
+   List<GraphFunction> functions =[];
   double gridStep;
   List<DrawableObject> drawableObjects =[];
   GraphOffset focusPoint= GraphOffset(0, 0);

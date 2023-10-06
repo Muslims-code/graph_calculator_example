@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:graph_calculator_example/models/drawable_object.dart';
+import 'package:graph_calculator_example/models/graph_function.dart';
 import 'package:graph_calculator_example/models/graph_offset.dart';
 import 'package:graph_calculator_example/models/models.dart';
 import 'package:flutter/material.dart';
@@ -17,10 +18,6 @@ class GraphController {
   ) {
     var xAddition = -graph.focusPoint.x;
     var yAddition = -graph.focusPoint.y;
-    // final paint = Paint()
-    //   ..color = graph.axesColor
-    //   ..style = PaintingStyle.stroke
-    //   ..strokeWidth = graph.axesWidth;
     addObject(GraphLine(
         color: graph.axesColor,
         startOffset: Offset(-(size.width / 2 + xAddition.abs()), 0),
@@ -33,39 +30,14 @@ class GraphController {
         endOffset: Offset(0, size.height / 2 + yAddition.abs())));
   }
 
-  void drawFunction(Canvas canvas, Size size, Function function) {
-    final List<Offset> points = [];
-    // step = 100
-    for (double i = (graph.focusPoint.x - (size.width / 2)) / graph.gridStep;
-        i < (graph.focusPoint.x + (size.width / 2)) / graph.gridStep;
-        i += 0.1) {
-      if (function(i).isNaN) continue;
-      var y = (-function(i));
-      if ((y < (graph.focusPoint.y + (size.height / 2)) / graph.gridStep) &&
-          (y > (graph.focusPoint.y - (size.height / 2)) / graph.gridStep)) {
-        points.add(Offset(i * graph.gridStep, y * graph.gridStep));
-        final paint = Paint()
-          ..color = Colors.red
-          ..strokeWidth = 2
-          ..strokeCap = StrokeCap.round;
-        drawFunctionPoints(paint, points, canvas);
-      }
-    }
+  void addFunction(GraphFunction function){
+  graph.functions.add(function);
+   }
+   void drawFunctions(Canvas canvas,Size size){
+  for (var function in graph.functions) {
+    function.draw(canvas, size,graph);
   }
-
-  void drawFunctionPoints(Paint paint, List<Offset> points, Canvas canvas) {
-    for (var i = 0; i < points.length - 1; i++) {
-      if ((points[i + 1].dy - points[i].dy).abs() > 100) {
-        continue;
-      }
-      if ((points[i + 1].dx- points[i].dx).abs() > 100) {
-        continue;
-      }
-
-      canvas.drawLine(points[i], points[i + 1], paint);
-    }
-  }
-
+   }
   void addObject(DrawableObject object) {
     graph.drawableObjects.add(object);
   }
