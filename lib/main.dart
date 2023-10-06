@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
         useMaterial3: true,
       ),
       home: homepage(),
@@ -42,30 +42,40 @@ class _homepageState extends State<homepage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 100,
-            ),
-            GraphWidget(
-              graphController: graphController,
-              size: Size(MediaQuery.of(context).size.width, 500),
-            ),
-          ],
+        child: GraphWidget(
+          graphController: graphController,
+          size: MediaQuery.of(context).size,
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.blue,
-          onPressed: () {
-            setState(() {
-              
-               graphController.addFunction(GraphFunction(function: (x){
-                return 1/x ;
-              }, color: Colors.red));
-             
-              
-            });
-          }),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+              backgroundColor: Colors.white,
+              child: Icon(Icons.line_axis_rounded),
+              onPressed: () {
+                setState(() {
+                  graphController.addFunction(GraphFunction(
+                      function: (x) {
+                        return 1 / x + 1 / (x - 1);
+                      },
+                      color: Colors.red));
+                });
+              }),
+          SizedBox(
+            height: 10,
+          ),
+          FloatingActionButton(
+              backgroundColor: Colors.white,
+              child: Icon(Icons.center_focus_strong),
+              onPressed: () {
+                setState(() {
+                  graphController.backToHome();
+                });
+              })
+        ],
+      ),
     );
   }
 }
