@@ -1,9 +1,5 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:graph_calculator_example/controllers/graph_controller.dart';
-import 'package:graph_calculator_example/models/graph_function.dart';
 import 'package:graph_calculator_example/widgets/graph_widget.dart';
 import 'models/models.dart';
 
@@ -22,22 +18,22 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
         useMaterial3: true,
       ),
-      home: homepage(),
+      home: const HomePage(),
     );
   }
 }
 
-class homepage extends StatefulWidget {
-  const homepage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<homepage> createState() => _homepageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _homepageState extends State<homepage> {
+class _HomePageState extends State<HomePage> {
   var graphController = GraphController(
       graph:
-          Graph(gridStep: 100, numbersStyle: TextStyle(color: Colors.black)));
+          Graph(gridStep: 100, numbersStyle: const TextStyle(color: Colors.black)));
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +49,7 @@ class _homepageState extends State<homepage> {
         children: [
           FloatingActionButton(
               backgroundColor: Colors.white,
-              child: Icon(Icons.line_axis_rounded),
+              child: const Icon(Icons.line_axis_rounded),
               onPressed: () {
                 setState(() {
                   graphController.addFunction(GraphFunction(
@@ -63,12 +59,12 @@ class _homepageState extends State<homepage> {
                       color: Colors.red));
                 });
               }),
-          SizedBox(
+         const  SizedBox(
             height: 10,
           ),
           FloatingActionButton(
               backgroundColor: Colors.white,
-              child: Icon(Icons.center_focus_strong),
+              child: const Icon(Icons.center_focus_strong),
               onPressed: () {
                 setState(() {
                   graphController.backToHome();

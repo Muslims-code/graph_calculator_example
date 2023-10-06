@@ -1,30 +1,37 @@
 import 'dart:ui';
-
 import 'package:graph_calculator_example/models/models.dart';
 
+/// Represents a mathematical function that can be drawn on a graph.
 class GraphFunction {
+  // The mathematical function to be plotted.
   Function(double enter) function;
-   Paint paint = Paint()
-      ..style = PaintingStyle.stroke;
-  GraphFunction({required this.function,required Color color}){
+
+  // The paint used to define the drawing style (color, etc.).
+  Paint paint = Paint()..style = PaintingStyle.stroke;
+
+  /// Creates a [GraphFunction] with the specified mathematical [function] and [color].
+  GraphFunction({
+    required this.function,
+    required Color color,
+  }) {
     paint.color = color;
   }
+
+  /// Draws the graph of the function on the given [canvas] with the provided [size] and [graph] settings.
   void draw(Canvas canvas, Size size, Graph graph) {
-   
     List<Offset> points = [];
     for (double i = -((size.width / 2) - graph.focusPoint.x) / graph.gridStep;
         i < ((size.width / 2) + graph.focusPoint.x) / graph.gridStep;
         i += 0.005) {
-      if(!(-function(i) * graph.gridStep).isNaN){
-      points.add(Offset(i * graph.gridStep, -function(i) * graph.gridStep));
+      if (!(-function(i) * graph.gridStep).isNaN) {
+        points.add(Offset(i * graph.gridStep, -function(i) * graph.gridStep));
       }
     }
-  
+
     List<Offset> path = [];
     bool isContinue = false;
     int counter = 1;
     for (var point in points) {
-      
       if (point.dy < ((size.height / 2) + graph.focusPoint.y) &&
           point.dy > -((size.height / 2) - graph.focusPoint.y)) {
         if (!isContinue) {

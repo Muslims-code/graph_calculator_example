@@ -1,21 +1,19 @@
-import 'dart:math';
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:graph_calculator_example/models/graph_function.dart';
-import 'package:graph_calculator_example/models/graph_offset.dart';
+import 'package:graph_calculator_example/controllers/graph_controller.dart';
+import 'package:graph_calculator_example/models/models.dart';
 
-import '../controllers/graph_controller.dart';
-import '../models/graph.dart';
-import '../models/models.dart';
-
+/// A widget that displays a graph using a custom painter.
 class GraphWidget extends StatefulWidget {
-  late GraphController _graphController;
-  Size size;
-  GraphWidget(
-      {super.key, required graphController, this.size = const Size(100, 100)}) {
-    _graphController = graphController;
-  }
+  final GraphController _graphController;
+  final Size size;
+
+  /// Creates a [GraphWidget] with the specified [graphController] and [size].
+  const GraphWidget({
+    Key? key,
+    required graphController,
+    this.size = const Size(100, 100),
+  })   : _graphController = graphController,
+        super(key: key);
 
   @override
   State<GraphWidget> createState() => _GraphWidgetState();
@@ -39,23 +37,29 @@ class _GraphWidgetState extends State<GraphWidget> {
           size: widget.size,
           isComplex: true,
           painter: GraphPainter(
-              focusPoint: widget._graphController.graph.focusPoint,
-              graph: widget._graphController.graph,
-              controller: widget._graphController),
+            focusPoint: widget._graphController.graph.focusPoint,
+            graph: widget._graphController.graph,
+            controller: widget._graphController,
+          ),
         ),
       ),
     );
   }
 }
 
+/// A custom painter for drawing a graph.
 class GraphPainter extends CustomPainter {
   GraphOffset focusPoint;
   final Graph graph;
   final GraphController controller;
-  GraphPainter(
-      {required this.focusPoint,
-      required this.graph,
-      required this.controller});
+
+  /// Creates a [GraphPainter] with the specified [focusPoint], [graph], and [controller].
+  GraphPainter({
+    required this.focusPoint,
+    required this.graph,
+    required this.controller,
+  });
+
   @override
   void paint(Canvas canvas, Size size) {
     canvas.clipRect(
@@ -63,12 +67,11 @@ class GraphPainter extends CustomPainter {
     var xAddition = focusPoint.x;
     var yAddition = focusPoint.y;
     canvas.translate(size.width / 2 - xAddition, size.height / 2 - yAddition);
-    controller.drawAxes(canvas, size);
-    controller.addNumbers(canvas, size);
+    graph.drawAxes ? controller.drawAxes(canvas, size) : null;
+    graph.drawNumbers ? controller.addNumbers(canvas, size) : null;
     controller.drawObjects(canvas, size);
     controller.drawFunctions(canvas, size);
   }
-   
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {

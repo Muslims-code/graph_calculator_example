@@ -1,17 +1,19 @@
+/// This file defines a [GraphController] class for controlling a graph in a Flutter app.
+
 import 'dart:ui';
-
-import 'package:graph_calculator_example/models/drawable_object.dart';
-import 'package:graph_calculator_example/models/graph_function.dart';
-import 'package:graph_calculator_example/models/graph_offset.dart';
-import 'package:graph_calculator_example/models/models.dart';
 import 'package:flutter/material.dart';
+import 'package:graph_calculator_example/models/models.dart';
 
+/// The [GraphController] class controls a graph.
 class GraphController {
   final Graph graph;
+
+  /// Creates a [GraphController] instance with the specified [graph].
   GraphController({
     required this.graph,
   });
 
+  /// Draws the graph axes on the given [canvas] with the provided [size].
   void drawAxes(
     Canvas canvas,
     Size size,
@@ -30,29 +32,35 @@ class GraphController {
         endOffset: Offset(0, size.height / 2 + yAddition.abs())));
   }
 
-  void addFunction(GraphFunction function){
-  graph.functions.add(function);
-   }
-   void drawFunctions(Canvas canvas,Size size){
-  for (var function in graph.functions) {
-    function.draw(canvas, size,graph);
+  /// Adds a mathematical function to the list of functions to be drawn on the graph.
+  void addFunction(GraphFunction function) {
+    graph.functions.add(function);
   }
-   }
+
+  /// Draws all the mathematical functions on the graph canvas with the given [size].
+  void drawFunctions(Canvas canvas, Size size) {
+    for (var [function] in [graph.functions]) {
+      function.draw(canvas, size, graph);
+    }
+  }
+
+  /// Adds a drawable object to the list of objects to be drawn on the graph.
   void addObject(DrawableObject object) {
     graph.drawableObjects.add(object);
   }
 
+  /// Draws all the drawable objects on the graph canvas with the given [size].
   void drawObjects(Canvas canvas, Size size) {
-    for (var constObject in graph.constObjects) {
+    for (var [constObject] in [graph.constObjects]) {
       addObject(constObject);
     }
-    for (var object in graph.drawableObjects) {
+    for (var [object] in [graph.drawableObjects]) {
       object.draw(canvas, size);
     }
     graph.drawableObjects = [];
   }
-  //draw numbers that shown in line
 
+  /// Adds numbers to the graph indicating the grid steps.
   void addNumbers(Canvas canvas, Size size) {
     double xPositiveLength = size.width / 2 + graph.focusPoint.x;
     double yPositiveLength = (size.height / 2 + graph.focusPoint.y);
@@ -60,7 +68,7 @@ class GraphController {
     var counter = 0;
     var pointsCountFromBeginning = (xPositiveLength / graph.gridStep).floor();
 
-    // determining how many grid steps are in the screen
+    // Determine how many grid steps are on the screen.
     for (double i = 0; i <= size.width; i += graph.gridStep) {
       var offset = Offset(
           (graph.gridStep * (pointsCountFromBeginning - counter)).toDouble() -
@@ -82,7 +90,7 @@ class GraphController {
     }
     counter = 0;
     pointsCountFromBeginning = (yPositiveLength / graph.gridStep).floor();
-    // drawing y numbers
+    // Draw numbers on the y-axis.
     for (double i = 0; i <= size.height; i += graph.gridStep) {
       var offset = Offset(
           0,
@@ -105,10 +113,12 @@ class GraphController {
     }
   }
 
+  /// Resets the focus point to the home position (0,0).
   void backToHome() {
     graph.focusPoint = GraphOffset(0, 0);
   }
 
+  /// Adds a constant drawable object to the list of objects to be drawn on the graph.
   void addConstObject(DrawableObject object) {
     graph.constObjects.add(object);
   }
