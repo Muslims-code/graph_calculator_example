@@ -1,6 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:graph_calculator_example/controllers/graph_controller.dart';
+import 'package:graph_calculator_example/models/graph_function.dart';
 import 'package:graph_calculator_example/widgets/graph_widget.dart';
 import 'models/models.dart';
 
@@ -55,10 +58,12 @@ class _homepageState extends State<homepage> {
           backgroundColor: Colors.blue,
           onPressed: () {
             setState(() {
-              graphController.addConstObject(GraphText(
-                  text: 'hello',
-                  offset: Offset(graphController.graph.focusPoint.x,
-                      graphController.graph.focusPoint.y)));
+              
+               graphController.addFunction(GraphFunction(function: (x){
+                return 1/x ;
+              }, color: Colors.red));
+             
+              
             });
           }),
     );

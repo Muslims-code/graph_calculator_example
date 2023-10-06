@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:flutter/material.dart';
 import 'package:graph_calculator_example/models/models.dart';
 
 class GraphFunction {
@@ -15,13 +14,17 @@ class GraphFunction {
     List<Offset> points = [];
     for (double i = -((size.width / 2) - graph.focusPoint.x) / graph.gridStep;
         i < ((size.width / 2) + graph.focusPoint.x) / graph.gridStep;
-        i += 0.008) {
+        i += 0.005) {
+      if(!(-function(i) * graph.gridStep).isNaN){
       points.add(Offset(i * graph.gridStep, -function(i) * graph.gridStep));
+      }
     }
+  
     List<Offset> path = [];
     bool isContinue = false;
     int counter = 1;
     for (var point in points) {
+      
       if (point.dy < ((size.height / 2) + graph.focusPoint.y) &&
           point.dy > -((size.height / 2) - graph.focusPoint.y)) {
         if (!isContinue) {
