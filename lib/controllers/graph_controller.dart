@@ -39,7 +39,7 @@ class GraphController {
 
   /// Draws all the mathematical functions on the graph canvas with the given [size].
   void drawFunctions(Canvas canvas, Size size) {
-    for (var [function] in [graph.functions]) {
+    for (var function in graph.functions) {
       function.draw(canvas, size, graph);
     }
   }
@@ -51,10 +51,10 @@ class GraphController {
 
   /// Draws all the drawable objects on the graph canvas with the given [size].
   void drawObjects(Canvas canvas, Size size) {
-    for (var [constObject] in [graph.constObjects]) {
+    for (var constObject in graph.constObjects) {
       addObject(constObject);
     }
-    for (var [object] in [graph.drawableObjects]) {
+    for (var object in graph.drawableObjects) {
       object.draw(canvas, size);
     }
     graph.drawableObjects = [];
